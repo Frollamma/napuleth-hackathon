@@ -25,36 +25,44 @@ Before you begin, you need to install the following tools:
 - Yarn ([v1](https://classic.yarnpkg.com/en/docs/install/) or [v2+](https://yarnpkg.com/getting-started/install))
 - [Git](https://git-scm.com/downloads)
 
-## Quickstart
+## Install
 
-To get started with Scaffold-ETH 2, follow the steps below:
+1. Clone this repo
 
-1. Install dependencies if it was skipped in CLI:
+2. Be sure submodules have been downloaded:
 
+```sh
+git submodule update --init --recursive
 ```
+
+3. Install dependencies
+
+```sh
 cd my-dapp-example
 yarn install
 ```
 
-2. Run a local network in the first terminal:
+## Run
 
-```
+1. Run a local network in the first terminal:
+
+```sh
 yarn chain
 ```
 
 This command starts a local Ethereum network using Foundry. The network runs on your local machine and can be used for testing and development. You can customize the network configuration in `packages/foundry/foundry.toml`.
 
-3. On a second terminal, deploy the test contract:
+2. On a second terminal, deploy the test contract:
 
-```
+```sh
 yarn deploy
 ```
 
 This command deploys a test smart contract to the local network. The contract is located in `packages/foundry/contracts` and can be modified to suit your needs. The `yarn deploy` command uses the deploy script located in `packages/foundry/script` to deploy the contract to the network. You can also customize the deploy script.
 
-4. On a third terminal, start your NextJS app:
+3. On a third terminal, start your NextJS app:
 
-```
+```sh
 yarn start
 ```
 
@@ -65,7 +73,6 @@ Run smart contract test with `yarn foundry:test`
 - Edit your smart contracts in `packages/foundry/contracts`
 - Edit your frontend homepage at `packages/nextjs/app/page.tsx`. For guidance on [routing](https://nextjs.org/docs/app/building-your-application/routing/defining-routes) and configuring [pages/layouts](https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts) checkout the Next.js documentation.
 - Edit your deployment scripts in `packages/foundry/script`
-
 
 ## Documentation
 
@@ -78,3 +85,4 @@ To know more about its features, check out our [website](https://scaffoldeth.io)
 We welcome contributions to Scaffold-ETH 2!
 
 Please see [CONTRIBUTING.MD](https://github.com/scaffold-eth/scaffold-eth-2/blob/main/CONTRIBUTING.md) for more information and guidelines for contributing to Scaffold-ETH 2.
+
