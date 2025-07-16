@@ -15,6 +15,7 @@
     "chain": "yarn foundry:chain",
     "compile": "yarn foundry:compile",
     "deploy": "yarn foundry:deploy",
+    "deploy-base-sepolia": "yarn workspace @se-2/foundry deploy --network baseSepolia",
     "flatten": "yarn foundry:flatten",
     "fork": "yarn foundry:fork",
     "format": "yarn next:format && yarn foundry:format",

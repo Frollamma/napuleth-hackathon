@@ -1,21 +1,4 @@
-# 🏗 Scaffold-ETH 2
-
-<h4 align="center">
-  <a href="https://docs.scaffoldeth.io">Documentation</a> |
-  <a href="https://scaffoldeth.io">Website</a>
-</h4>
-
-🧪 An open-source, up-to-date toolkit for building decentralized applications (dapps) on the Ethereum blockchain. It's designed to make it easier for developers to create and deploy smart contracts and build user interfaces that interact with those contracts.
-
-⚙️ Built using NextJS, RainbowKit, Foundry, Wagmi, Viem, and Typescript.
-
-- ✅ **Contract Hot Reload**: Your frontend auto-adapts to your smart contract as you edit it.
-- 🪝 **[Custom hooks](https://docs.scaffoldeth.io/hooks/)**: Collection of React hooks wrapper around [wagmi](https://wagmi.sh/) to simplify interactions with smart contracts with typescript autocompletion.
-- 🧱 [**Components**](https://docs.scaffoldeth.io/components/): Collection of common web3 components to quickly build your frontend.
-- 🔥 **Burner Wallet & Local Faucet**: Quickly test your application with a burner wallet and local faucet.
-- 🔐 **Integration with Wallet Providers**: Connect to different wallet providers and interact with the Ethereum network.
-
-![Debug Contracts tab](https://github.com/scaffold-eth/scaffold-eth-2/assets/55535804/b237af0c-5027-4849-a5c1-2e31495cccb1)
+# TesserAct
 
 ## Requirements
 
@@ -42,7 +25,34 @@ cd my-dapp-example
 yarn install
 ```
 
-## Run
+## Extra install (base sepolia)
+
+Follow [this guide](https://docs.base.org/learn/foundry/deploy-with-foundry) to set up your environment to deploy on base sepolia. There's also a `.env.example` that you can copy to `.env` to help you.
+
+## Extra install (avalanche)
+
+Follow [this guide](https://build.avax.network/docs/tooling/create-avalanche-l1) to set up your environment to deploy locally on your avalanche L1.
+
+To set the PATH fish use this:
+
+```
+set -x PATH ~/bin $PATH
+```
+
+If everything goes well you'll see:
+
+```
+prefunding address 0x8db97C7cEcE249c2b98bDC0226Cc4C2A57BF52FC with balance 1000000000000000000000000
+Installing subnet-evm-v0.7.5...
+subnet-evm-v0.7.5 installation successful
+File /home/frollo/.avalanche-cli/subnets/myblockchain/chain.json successfully written
+✓ Successfully created blockchain configuration
+Run 'avalanche blockchain describe' to view all created addresses and what their roles are
+```
+
+## Run (local)
+
+You can run on a local chain by following these steps:
 
 1. Run a local network in the first terminal:
 
@@ -52,13 +62,11 @@ yarn chain
 
 This command starts a local Ethereum network using Foundry. The network runs on your local machine and can be used for testing and development. You can customize the network configuration in `packages/foundry/foundry.toml`.
 
-2. On a second terminal, deploy the test contract:
+2. On a second terminal, deploy the contracts:
 
 ```sh
 yarn deploy
 ```
-
-This command deploys a test smart contract to the local network. The contract is located in `packages/foundry/contracts` and can be modified to suit your needs. The `yarn deploy` command uses the deploy script located in `packages/foundry/script` to deploy the contract to the network. You can also customize the deploy script.
 
 3. On a third terminal, start your NextJS app:
 
@@ -66,23 +74,44 @@ This command deploys a test smart contract to the local network. The contract is
 yarn start
 ```
 
-Visit your app on: `http://localhost:3000`. You can interact with your smart contract using the `Debug Contracts` page. You can tweak the app config in `packages/nextjs/scaffold.config.ts`.
+Visit `http://localhost:3000`.
 
-Run smart contract test with `yarn foundry:test`
+## Run (base sepolia)
 
-- Edit your smart contracts in `packages/foundry/contracts`
-- Edit your frontend homepage at `packages/nextjs/app/page.tsx`. For guidance on [routing](https://nextjs.org/docs/app/building-your-application/routing/defining-routes) and configuring [pages/layouts](https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts) checkout the Next.js documentation.
-- Edit your deployment scripts in `packages/foundry/script`
+You can run on Base Sepolia by following these steps:
+
+1. In a first terminal, deploy the contracts:
+
+```sh
+yarn deploy-base-sepolia
+```
+
+2. On a second terminal, start your NextJS app:
+
+```sh
+yarn start
+```
+
+Visit `http://localhost:3000`.
+
+## Run (avalanche)
+
+You can run on Avalanche by following these steps:
+
+1. In a first terminal, deploy the contracts:
+
+```sh
+yarn deploy-avalanche
+```
+
+2. On a second terminal, start your NextJS app:
+
+```sh
+yarn start
+```
+
+Visit `http://localhost:3000`.
 
 ## Documentation
 
-Visit our [docs](https://docs.scaffoldeth.io) to learn how to start building with Scaffold-ETH 2.
-
-To know more about its features, check out our [website](https://scaffoldeth.io).
-
-## Contributing to Scaffold-ETH 2
-
-We welcome contributions to Scaffold-ETH 2!
-
-Please see [CONTRIBUTING.MD](https://github.com/scaffold-eth/scaffold-eth-2/blob/main/CONTRIBUTING.md) for more information and guidelines for contributing to Scaffold-ETH 2.
-
+Please to understand how everything works visit the `docs`.
