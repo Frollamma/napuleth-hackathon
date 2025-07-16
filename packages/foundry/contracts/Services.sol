@@ -112,6 +112,12 @@ contract Services {
         string calldata outputSpecsURI,
         uint price
     ) external onlyAgentOwner(agentId) {
+        require(bytes(description).length > 0, "Description cannot be empty");
+        require(bytes(outputURI).length > 0, "Output URI required");
+        require(bytes(inputSpecsURI).length > 0, "Input specs URI required");
+        require(bytes(outputSpecsURI).length > 0, "Output specs URI required");
+        require(price > 0, "Price must be greater than zero");
+
         uint serviceId = serviceCounter;
 
         idToService[serviceId] = Service({

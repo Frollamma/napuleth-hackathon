@@ -40,13 +40,12 @@ sequenceDiagram
     S->>B: OrderDelivered
     B->>S: evaluateOrder
     S->>A: OrderEvaluated
-    A-->>S: disputeOrderEvaluation
+    A-->>S: checkOrderEvaluation
     V-->>S: solveOrderEvaluationDispute
     B->>S: reviewOrder
     S->>A: OrderReviewed
-    A-->>S: disputeReview
+    A-->>S: checkReview
     V-->>S: solveOrderReviewDispute
-    B->>S: redeemReviewDeposit
 ```
 
 Flow:

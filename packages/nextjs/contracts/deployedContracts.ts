@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   31337: {
     Tesseract: {
-      address: "0xe1da8919f262ee86f9be05059c9280142cf23f48",
+      address: "0xed1db453c3156ff3155a97ad217b3087d5dc5f6e",
       abi: [
         {
           type: "constructor",
@@ -32,6 +32,42 @@ const deployedContracts = {
             },
           ],
           stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "checkOrderEvaluation",
+          inputs: [
+            {
+              name: "orderId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "dispute",
+              type: "bool",
+              internalType: "bool",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "checkReview",
+          inputs: [
+            {
+              name: "orderId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "dispute",
+              type: "bool",
+              internalType: "bool",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
         },
         {
           type: "function",
@@ -163,19 +199,6 @@ const deployedContracts = {
         },
         {
           type: "function",
-          name: "disputeOrderEvaluation",
-          inputs: [
-            {
-              name: "orderId",
-              type: "uint256",
-              internalType: "uint256",
-            },
-          ],
-          outputs: [],
-          stateMutability: "payable",
-        },
-        {
-          type: "function",
           name: "disputeOrderEvaluationFee",
           inputs: [],
           outputs: [
@@ -186,19 +209,6 @@ const deployedContracts = {
             },
           ],
           stateMutability: "view",
-        },
-        {
-          type: "function",
-          name: "disputeReview",
-          inputs: [
-            {
-              name: "orderId",
-              type: "uint256",
-              internalType: "uint256",
-            },
-          ],
-          outputs: [],
-          stateMutability: "payable",
         },
         {
           type: "function",
@@ -247,7 +257,7 @@ const deployedContracts = {
             },
           ],
           outputs: [],
-          stateMutability: "nonpayable",
+          stateMutability: "payable",
         },
         {
           type: "function",
@@ -358,11 +368,6 @@ const deployedContracts = {
               internalType: "address",
             },
             {
-              name: "agent",
-              type: "address",
-              internalType: "address",
-            },
-            {
               name: "inputURI",
               type: "string",
               internalType: "string",
@@ -388,41 +393,57 @@ const deployedContracts = {
               internalType: "enum Orders.Status",
             },
             {
-              name: "params",
-              type: "tuple",
-              internalType: "struct Orders.ReviewParams",
-              components: [
-                {
-                  name: "objAnswers",
-                  type: "uint8[]",
-                  internalType: "uint8[]",
-                },
-                {
-                  name: "subjAnswers",
-                  type: "uint8[]",
-                  internalType: "uint8[]",
-                },
-                {
-                  name: "objWeights",
-                  type: "uint8[]",
-                  internalType: "uint8[]",
-                },
-                {
-                  name: "subjWeights",
-                  type: "uint8[]",
-                  internalType: "uint8[]",
-                },
-              ],
+              name: "reviewParamsId",
+              type: "uint256",
+              internalType: "uint256",
             },
             {
-              name: "evaluation",
-              type: "bool",
-              internalType: "bool",
+              name: "reviewId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "idToReview",
+          inputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          outputs: [
+            {
+              name: "id",
+              type: "uint256",
+              internalType: "uint256",
             },
             {
-              name: "reviewVerdict",
-              type: "bool",
-              internalType: "bool",
+              name: "ReviewParamsId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "idToReviewParams",
+          inputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          outputs: [
+            {
+              name: "id",
+              type: "uint256",
+              internalType: "uint256",
             },
           ],
           stateMutability: "view",
@@ -538,16 +559,16 @@ const deployedContracts = {
         },
         {
           type: "function",
-          name: "redeemReviewDeposit",
-          inputs: [
+          name: "platformFee",
+          inputs: [],
+          outputs: [
             {
-              name: "orderId",
+              name: "",
               type: "uint256",
               internalType: "uint256",
             },
           ],
-          outputs: [],
-          stateMutability: "nonpayable",
+          stateMutability: "view",
         },
         {
           type: "function",
@@ -566,14 +587,14 @@ const deployedContracts = {
               internalType: "uint256",
             },
             {
-              name: "objAnswers",
-              type: "uint8[]",
-              internalType: "uint8[]",
+              name: "objQuestions",
+              type: "string[]",
+              internalType: "string[]",
             },
             {
-              name: "subjAnswers",
-              type: "uint8[]",
-              internalType: "uint8[]",
+              name: "subjQuestions",
+              type: "string[]",
+              internalType: "string[]",
             },
             {
               name: "objWeights",
@@ -587,7 +608,7 @@ const deployedContracts = {
             },
           ],
           outputs: [],
-          stateMutability: "payable",
+          stateMutability: "nonpayable",
         },
         {
           type: "function",
@@ -611,9 +632,62 @@ const deployedContracts = {
               type: "uint256",
               internalType: "uint256",
             },
+            {
+              name: "review",
+              type: "tuple",
+              internalType: "struct Orders.Review",
+              components: [
+                {
+                  name: "id",
+                  type: "uint256",
+                  internalType: "uint256",
+                },
+                {
+                  name: "ReviewParamsId",
+                  type: "uint256",
+                  internalType: "uint256",
+                },
+                {
+                  name: "objAnswers",
+                  type: "uint8[]",
+                  internalType: "uint8[]",
+                },
+                {
+                  name: "subjAnswers",
+                  type: "uint8[]",
+                  internalType: "uint8[]",
+                },
+              ],
+            },
           ],
           outputs: [],
           stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "reviewParamsCounter",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "reviewsCounter",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          stateMutability: "view",
         },
         {
           type: "function",
@@ -627,6 +701,32 @@ const deployedContracts = {
             },
           ],
           stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "setReviewDeposit",
+          inputs: [
+            {
+              name: "newReviewDepositAmount",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "setVerifier",
+          inputs: [
+            {
+              name: "newVerifier",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
         },
         {
           type: "function",
@@ -659,6 +759,33 @@ const deployedContracts = {
               name: "buyerWins",
               type: "bool",
               internalType: "bool",
+            },
+            {
+              name: "review",
+              type: "tuple",
+              internalType: "struct Orders.Review",
+              components: [
+                {
+                  name: "id",
+                  type: "uint256",
+                  internalType: "uint256",
+                },
+                {
+                  name: "ReviewParamsId",
+                  type: "uint256",
+                  internalType: "uint256",
+                },
+                {
+                  name: "objAnswers",
+                  type: "uint8[]",
+                  internalType: "uint8[]",
+                },
+                {
+                  name: "subjAnswers",
+                  type: "uint8[]",
+                  internalType: "uint8[]",
+                },
+              ],
             },
           ],
           outputs: [],
@@ -694,6 +821,19 @@ const deployedContracts = {
           ],
           outputs: [],
           stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "verifier",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          stateMutability: "view",
         },
         {
           type: "event",
@@ -760,25 +900,6 @@ const deployedContracts = {
         },
         {
           type: "event",
-          name: "EvaluationDisputeResolved",
-          inputs: [
-            {
-              name: "orderId",
-              type: "uint256",
-              indexed: true,
-              internalType: "uint256",
-            },
-            {
-              name: "completed",
-              type: "bool",
-              indexed: false,
-              internalType: "bool",
-            },
-          ],
-          anonymous: false,
-        },
-        {
-          type: "event",
           name: "OrderCreated",
           inputs: [
             {
@@ -824,13 +945,32 @@ const deployedContracts = {
         },
         {
           type: "event",
-          name: "OrderEvaluationDisputed",
+          name: "OrderEvaluationChecked",
           inputs: [
             {
               name: "orderId",
               type: "uint256",
               indexed: true,
               internalType: "uint256",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "OrderEvaluationDisputeResolved",
+          inputs: [
+            {
+              name: "orderId",
+              type: "uint256",
+              indexed: true,
+              internalType: "uint256",
+            },
+            {
+              name: "completed",
+              type: "bool",
+              indexed: false,
+              internalType: "bool",
             },
           ],
           anonymous: false,
@@ -926,10 +1066,16 @@ const deployedContracts = {
         },
         {
           type: "event",
-          name: "ReviewDepositRedeemed",
+          name: "ReviewDepositAmountChanged",
           inputs: [
             {
-              name: "orderId",
+              name: "previousReviewDepositAmount",
+              type: "uint256",
+              indexed: true,
+              internalType: "uint256",
+            },
+            {
+              name: "newReviewDepositAmount",
               type: "uint256",
               indexed: true,
               internalType: "uint256",
@@ -1014,6 +1160,25 @@ const deployedContracts = {
           anonymous: false,
         },
         {
+          type: "event",
+          name: "VerifierChanged",
+          inputs: [
+            {
+              name: "previousVerifier",
+              type: "address",
+              indexed: true,
+              internalType: "address",
+            },
+            {
+              name: "newVerifier",
+              type: "address",
+              indexed: true,
+              internalType: "address",
+            },
+          ],
+          anonymous: false,
+        },
+        {
           type: "error",
           name: "OwnableInvalidOwner",
           inputs: [
@@ -1037,7 +1202,7 @@ const deployedContracts = {
         },
       ],
       inheritedFunctions: {},
-      deploymentFile: "run-1752674192.json",
+      deploymentFile: "run-1752690035.json",
       deploymentScript: "Deploy.s.sol",
     },
   },
