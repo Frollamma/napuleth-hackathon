@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   31337: {
     Tesseract: {
-      address: "0x700b6a60ce7eaaea56f065753d8dcb9653dbad35",
+      address: "0xb19b36b1456e65e3a6d514d3f715f204bd59f431",
       abi: [
         {
           type: "constructor",
@@ -22,7 +22,20 @@ const deployedContracts = {
         },
         {
           type: "function",
-          name: "createSeller",
+          name: "agentCounter",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "createAgent",
           inputs: [
             {
               name: "name",
@@ -45,13 +58,7 @@ const deployedContracts = {
               internalType: "string",
             },
           ],
-          outputs: [
-            {
-              name: "sellerId",
-              type: "uint256",
-              internalType: "uint256",
-            },
-          ],
+          outputs: [],
           stateMutability: "nonpayable",
         },
         {
@@ -59,7 +66,7 @@ const deployedContracts = {
           name: "createService",
           inputs: [
             {
-              name: "sellerId",
+              name: "agentId",
               type: "uint256",
               internalType: "uint256",
             },
@@ -89,21 +96,15 @@ const deployedContracts = {
               internalType: "uint256",
             },
           ],
-          outputs: [
-            {
-              name: "serviceId",
-              type: "uint256",
-              internalType: "uint256",
-            },
-          ],
+          outputs: [],
           stateMutability: "nonpayable",
         },
         {
           type: "function",
-          name: "deleteSeller",
+          name: "deleteAgent",
           inputs: [
             {
-              name: "sellerId",
+              name: "agentId",
               type: "uint256",
               internalType: "uint256",
             },
@@ -126,7 +127,26 @@ const deployedContracts = {
         },
         {
           type: "function",
-          name: "getSellersByOwner",
+          name: "getAgentServices",
+          inputs: [
+            {
+              name: "agentId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          outputs: [
+            {
+              name: "",
+              type: "uint256[]",
+              internalType: "uint256[]",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "getAgentsByOwner",
           inputs: [
             {
               name: "owner",
@@ -145,7 +165,7 @@ const deployedContracts = {
         },
         {
           type: "function",
-          name: "idToSeller",
+          name: "idToAgent",
           inputs: [
             {
               name: "",
@@ -244,7 +264,7 @@ const deployedContracts = {
               internalType: "uint256",
             },
             {
-              name: "sellerId",
+              name: "agentId",
               type: "uint256",
               internalType: "uint256",
             },
@@ -266,7 +286,7 @@ const deployedContracts = {
         },
         {
           type: "function",
-          name: "ownerSellerCounter",
+          name: "ownerAgentCounter",
           inputs: [
             {
               name: "",
@@ -292,88 +312,6 @@ const deployedContracts = {
         },
         {
           type: "function",
-          name: "sellerCounter",
-          inputs: [],
-          outputs: [
-            {
-              name: "",
-              type: "uint256",
-              internalType: "uint256",
-            },
-          ],
-          stateMutability: "view",
-        },
-        {
-          type: "function",
-          name: "sellerToServices",
-          inputs: [
-            {
-              name: "",
-              type: "uint256",
-              internalType: "uint256",
-            },
-            {
-              name: "",
-              type: "uint256",
-              internalType: "uint256",
-            },
-          ],
-          outputs: [
-            {
-              name: "description",
-              type: "string",
-              internalType: "string",
-            },
-            {
-              name: "outputURI",
-              type: "string",
-              internalType: "string",
-            },
-            {
-              name: "inputSpecsURI",
-              type: "string",
-              internalType: "string",
-            },
-            {
-              name: "outputSpecsURI",
-              type: "string",
-              internalType: "string",
-            },
-            {
-              name: "price",
-              type: "uint256",
-              internalType: "uint256",
-            },
-            {
-              name: "completedServices",
-              type: "uint256",
-              internalType: "uint256",
-            },
-            {
-              name: "failedServices",
-              type: "uint256",
-              internalType: "uint256",
-            },
-            {
-              name: "totReviews",
-              type: "uint256",
-              internalType: "uint256",
-            },
-            {
-              name: "reputation",
-              type: "uint256",
-              internalType: "uint256",
-            },
-            {
-              name: "sellerId",
-              type: "uint256",
-              internalType: "uint256",
-            },
-          ],
-          stateMutability: "view",
-        },
-        {
-          type: "function",
           name: "serviceCounter",
           inputs: [],
           outputs: [
@@ -384,6 +322,24 @@ const deployedContracts = {
             },
           ],
           stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "transferAgent",
+          inputs: [
+            {
+              name: "newOwner",
+              type: "address",
+              internalType: "address",
+            },
+            {
+              name: "agentId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
         },
         {
           type: "function",
@@ -399,27 +355,53 @@ const deployedContracts = {
           stateMutability: "nonpayable",
         },
         {
-          type: "function",
-          name: "transferSeller",
+          type: "event",
+          name: "AgentCreated",
           inputs: [
             {
-              name: "newOwner",
-              type: "address",
-              internalType: "address",
-            },
-            {
-              name: "sellerId",
+              name: "agentId",
               type: "uint256",
+              indexed: true,
               internalType: "uint256",
             },
+            {
+              name: "owner",
+              type: "address",
+              indexed: true,
+              internalType: "address",
+            },
           ],
-          outputs: [],
-          stateMutability: "nonpayable",
+          anonymous: false,
         },
         {
           type: "event",
-          name: "OwnershipTransferred",
+          name: "AgentDeleted",
           inputs: [
+            {
+              name: "agentId",
+              type: "uint256",
+              indexed: true,
+              internalType: "uint256",
+            },
+            {
+              name: "owner",
+              type: "address",
+              indexed: true,
+              internalType: "address",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "AgentTransferred",
+          inputs: [
+            {
+              name: "agentId",
+              type: "uint256",
+              indexed: true,
+              internalType: "uint256",
+            },
             {
               name: "previousOwner",
               type: "address",
@@ -437,52 +419,8 @@ const deployedContracts = {
         },
         {
           type: "event",
-          name: "SellerCreated",
+          name: "OwnershipTransferred",
           inputs: [
-            {
-              name: "sellerId",
-              type: "uint256",
-              indexed: true,
-              internalType: "uint256",
-            },
-            {
-              name: "owner",
-              type: "address",
-              indexed: true,
-              internalType: "address",
-            },
-          ],
-          anonymous: false,
-        },
-        {
-          type: "event",
-          name: "SellerDeleted",
-          inputs: [
-            {
-              name: "sellerId",
-              type: "uint256",
-              indexed: true,
-              internalType: "uint256",
-            },
-            {
-              name: "owner",
-              type: "address",
-              indexed: true,
-              internalType: "address",
-            },
-          ],
-          anonymous: false,
-        },
-        {
-          type: "event",
-          name: "SellerTransferred",
-          inputs: [
-            {
-              name: "sellerId",
-              type: "uint256",
-              indexed: true,
-              internalType: "uint256",
-            },
             {
               name: "previousOwner",
               type: "address",
@@ -509,7 +447,7 @@ const deployedContracts = {
               internalType: "uint256",
             },
             {
-              name: "sellerId",
+              name: "agentId",
               type: "uint256",
               indexed: true,
               internalType: "uint256",
@@ -528,7 +466,7 @@ const deployedContracts = {
               internalType: "uint256",
             },
             {
-              name: "sellerId",
+              name: "agentId",
               type: "uint256",
               indexed: true,
               internalType: "uint256",
@@ -566,7 +504,7 @@ const deployedContracts = {
         },
       ],
       inheritedFunctions: {},
-      deploymentFile: "run-1752655402.json",
+      deploymentFile: "run-1752659493.json",
       deploymentScript: "Deploy.s.sol",
     },
   },

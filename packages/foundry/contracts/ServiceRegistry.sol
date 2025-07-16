@@ -1,7 +1,7 @@
 pragma solidity ^0.8.20;
 
 contract ServiceRegistry {
-    struct Seller {
+    struct Agent {
         uint id;
         string name;
         string bio;
@@ -20,68 +20,82 @@ contract ServiceRegistry {
         uint failedServices;
         uint totReviews;
         uint reputation; // sum of all review scores (for this service)
-        uint sellerId;
+        uint agentId;
     }
 
-    uint public sellerCounter;
+    uint public agentCounter;
     uint public serviceCounter;
 
-    mapping(address => uint) public ownerSellerCounter; // counts the number of sellers an address has
-    mapping(uint => Seller) public idToSeller;       // sellerId to sellers
+    mapping(address => uint) public ownerAgentCounter; // counts the number of agents an address has
+    mapping(uint => Agent) public idToAgent;       // agentId to agents
     mapping(uint => Service) public idToService;     // serviceId to services
-    mapping(uint => Service[]) public sellerToServices;     // sellerId to services
+    mapping(uint => uint) internal agentServicesCounter;     // agentId to number of services that agent has
 
-    event SellerCreated(uint indexed sellerId, address indexed owner);
-    event ServiceCreated(uint indexed serviceId, uint indexed sellerId);
-    event SellerTransferred(uint indexed sellerId, address indexed previousOwner, address indexed newOwner);
-    event SellerDeleted(uint indexed sellerId, address indexed owner);
-    event ServiceDeleted(uint indexed serviceId, uint indexed sellerId, address indexed owner);
+    event AgentCreated(uint indexed agentId, address indexed owner);
+    event ServiceCreated(uint indexed serviceId, uint indexed agentId);
+    event AgentTransferred(uint indexed agentId, address indexed previousOwner, address indexed newOwner);
+    event AgentDeleted(uint indexed agentId, address indexed owner);
+    event ServiceDeleted(uint indexed serviceId, uint indexed agentId, address indexed owner);
 
-    modifier onlySellerOwner(uint sellerId) {
+    modifier onlyAgentOwner(uint agentId) {
         require(
-            idToSeller[sellerId].owner == msg.sender,
-            "Not the owner of the seller"
+            idToAgent[agentId].owner == msg.sender,
+            "Not the owner of the agent"
         );
         _;
     }
     
     modifier onlyServiceOwner(uint serviceId) {
         require(
-            idToSeller[idToService[serviceId].sellerId].owner == msg.sender,
+            idToAgent[idToService[serviceId].agentId].owner == msg.sender,
             "Not the owner of the service"
         );
         _;
     }
 
-    function createSeller(
+    function createAgent(
         string calldata name,
         string calldata bio,
         string calldata imageURI,
         string calldata contact
     ) external {
-      // It's ok for an address to own multiple sellers
-        sellerId = sellerCounter;
-        sellerCounter++;
+      // It's ok for an address to own multiple agents
+        uint agentId = agentCounter;
+        agentCounter++;
 
-        idToSeller[sellerId] = Seller({
-            id: sellerId,
+        idToAgent[agentId] = Agent({
+            id: agentId,
             name: name,
             bio: bio,
             imageURI: imageURI,
             contact: contact,
             owner: msg.sender
         });
-        ownerSellerCounter[msg.sender]++;
+        ownerAgentCounter[msg.sender]++;
 
-        emit SellerCreated(sellerId, msg.sender);
+        emit AgentCreated(agentId, msg.sender);
     }
 
-    function getSellersByOwner(address owner) external view returns(uint[] memory) {
-      uint[] memory result = new uint[](ownerSellerCounter[owner]);
+    function getAgentServices(uint agentId) public view returns (uint[] memory) {
+      uint[] memory result  = new uint[](agentServicesCounter[agentId]);
+
+      uint count = 0;
+      for (uint i = 0; i < serviceCounter; i++) {
+        if (idToService[i].agentId == agentId) {
+          result[count] = i;
+          count++;
+        }
+      }
+
+      return result;
+    }
+
+    function getAgentsByOwner(address owner) external view returns(uint[] memory) {
+      uint[] memory result = new uint[](ownerAgentCounter[owner]);
 
       uint counter = 0;
-      for (uint i = 0; i < sellerCounter; i++) {
-        if (idToSeller[i].owner == owner) {
+      for (uint i = 0; i < agentCounter; i++) {
+        if (idToAgent[i].owner == owner) {
           result[counter] = i;
           counter++;
         }
@@ -91,15 +105,14 @@ contract ServiceRegistry {
     }
 
     function createService(
-        uint sellerId,
+        uint agentId,
         string calldata description,
         string calldata outputURI,
         string calldata inputSpecsURI,
         string calldata outputSpecsURI,
         uint price
-    ) external onlySellerOwner(sellerId) {
-        serviceId = serviceCounter;
-        serviceCounter++;
+    ) external onlyAgentOwner(agentId) {
+        uint serviceId = serviceCounter;
 
         idToService[serviceId] = Service({
             description: description,
@@ -111,38 +124,40 @@ contract ServiceRegistry {
             failedServices: 0,
             totReviews: 0,
             reputation: 0,
-            sellerId: sellerId
+            agentId: agentId
         });
+        serviceCounter++;
+        agentServicesCounter[agentId]++;
 
-        emit ServiceCreated(serviceId, sellerId);
+        emit ServiceCreated(serviceId, agentId);
     }
 
-    function transferSeller(address newOwner, uint sellerId) external onlySellerOwner(sellerId) {
-      address previousOwner = idToSeller[sellerId].owner;
+    function transferAgent(address newOwner, uint agentId) external onlyAgentOwner(agentId) {
+      address previousOwner = idToAgent[agentId].owner;
 
-      ownerSellerCounter[msg.sender]--;
-      idToSeller[sellerId].owner = newOwner;
-      ownerSellerCounter[newOwner]++;
+      ownerAgentCounter[msg.sender]--;
+      idToAgent[agentId].owner = newOwner;
+      ownerAgentCounter[newOwner]++;
 
-      emit SellerTransferred(sellerId, previousOwner, newOwner);
+      emit AgentTransferred(agentId, previousOwner, newOwner);
     }
 
-    function deleteSeller(uint sellerId) external onlySellerOwner(sellerId) {
-      require(sellerToServices[sellerId].length == 0, "This seller has still some services, delete them");
-      address owner = idToSeller[sellerId].owner;
+    function deleteAgent(uint agentId) external onlyAgentOwner(agentId) {
+      require(getAgentServices(agentId).length == 0, "This agent has still some services, delete them");
+      address owner = idToAgent[agentId].owner;
 
-      delete idToSeller[sellerId];
-      ownerSellerCounter[msg.sender]--;
+      delete idToAgent[agentId];
+      ownerAgentCounter[msg.sender]--;
 
-      emit SellerDeleted(sellerId, owner);
+      emit AgentDeleted(agentId, owner);
     }
 
     function deleteService(uint serviceId) external onlyServiceOwner(serviceId) {
-        uint sellerId = idToService[serviceId].sellerId;
-        address owner = idToSeller[sellerId].owner;
+        uint agentId = idToService[serviceId].agentId;
+        address owner = idToAgent[agentId].owner;
 
         delete idToService[serviceId];
 
-        emit ServiceDeleted(serviceId, sellerId, owner);
+        emit ServiceDeleted(serviceId, agentId, owner);
     }
 }

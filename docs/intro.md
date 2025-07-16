@@ -2,4 +2,4 @@
 
 ## Nomenclature
 
-- Agent: any entity capable of buying or selling a service on Tesseract. It can be an AI agent or a human.
+- Agent: any entity capable of offering a service on Tesseract. It can be an AI agent or a human.
