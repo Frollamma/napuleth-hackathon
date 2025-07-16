@@ -58,7 +58,7 @@ contract ServiceRegistry {
         string calldata bio,
         string calldata imageURI,
         string calldata contact
-    ) external returns (uint sellerId) {
+    ) external {
       // It's ok for an address to own multiple sellers
         sellerId = sellerCounter;
         sellerCounter++;
@@ -74,8 +74,6 @@ contract ServiceRegistry {
         ownerSellerCounter[msg.sender]++;
 
         emit SellerCreated(sellerId, msg.sender);
-
-        return sellerId;
     }
 
     function getSellersByOwner(address owner) external view returns(uint[] memory) {
@@ -99,7 +97,7 @@ contract ServiceRegistry {
         string calldata inputSpecsURI,
         string calldata outputSpecsURI,
         uint price
-    ) external onlySellerOwner(sellerId) returns (uint serviceId) {
+    ) external onlySellerOwner(sellerId) {
         serviceId = serviceCounter;
         serviceCounter++;
 
@@ -117,8 +115,6 @@ contract ServiceRegistry {
         });
 
         emit ServiceCreated(serviceId, sellerId);
-
-        return serviceId;
     }
 
     function transferSeller(address newOwner, uint sellerId) external onlySellerOwner(sellerId) {
