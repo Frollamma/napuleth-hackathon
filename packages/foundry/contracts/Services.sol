@@ -1,6 +1,6 @@
 pragma solidity ^0.8.20;
 
-contract ServiceRegistry {
+contract Services {
     struct Agent {
         uint id;
         string name;
