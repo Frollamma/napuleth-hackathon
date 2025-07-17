@@ -5,9 +5,9 @@
 import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 
 const deployedContracts = {
-  84532: {
+  31337: {
     Tesseract: {
-      address: "0xc0cfc114b52f7160ffa9dddc40b12c6e402fa7cb",
+      address: "0xe1da8919f262ee86f9be05059c9280142cf23f48",
       abi: [
         {
           type: "constructor",
@@ -68,6 +68,19 @@ const deployedContracts = {
           ],
           outputs: [],
           stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "completionParamsCounter",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          stateMutability: "view",
         },
         {
           type: "function",
@@ -343,6 +356,25 @@ const deployedContracts = {
         },
         {
           type: "function",
+          name: "idToCompletionParams",
+          inputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          outputs: [
+            {
+              name: "id",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
           name: "idToOrder",
           inputs: [
             {
@@ -393,6 +425,11 @@ const deployedContracts = {
               internalType: "enum Orders.Status",
             },
             {
+              name: "completionParamsId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
               name: "reviewParamsId",
               type: "uint256",
               internalType: "uint256",
@@ -422,7 +459,7 @@ const deployedContracts = {
               internalType: "uint256",
             },
             {
-              name: "ReviewParamsId",
+              name: "reviewParamsId",
               type: "uint256",
               internalType: "uint256",
             },
@@ -587,6 +624,11 @@ const deployedContracts = {
               internalType: "uint256",
             },
             {
+              name: "objTasks",
+              type: "string[]",
+              internalType: "string[]",
+            },
+            {
               name: "objQuestions",
               type: "string[]",
               internalType: "string[]",
@@ -633,31 +675,14 @@ const deployedContracts = {
               internalType: "uint256",
             },
             {
-              name: "review",
-              type: "tuple",
-              internalType: "struct Orders.Review",
-              components: [
-                {
-                  name: "id",
-                  type: "uint256",
-                  internalType: "uint256",
-                },
-                {
-                  name: "ReviewParamsId",
-                  type: "uint256",
-                  internalType: "uint256",
-                },
-                {
-                  name: "objAnswers",
-                  type: "uint8[]",
-                  internalType: "uint8[]",
-                },
-                {
-                  name: "subjAnswers",
-                  type: "uint8[]",
-                  internalType: "uint8[]",
-                },
-              ],
+              name: "objAnswers",
+              type: "uint8[]",
+              internalType: "uint8[]",
+            },
+            {
+              name: "subjAnswers",
+              type: "uint8[]",
+              internalType: "uint8[]",
             },
           ],
           outputs: [],
@@ -771,7 +796,1233 @@ const deployedContracts = {
                   internalType: "uint256",
                 },
                 {
-                  name: "ReviewParamsId",
+                  name: "reviewParamsId",
+                  type: "uint256",
+                  internalType: "uint256",
+                },
+                {
+                  name: "objAnswers",
+                  type: "uint8[]",
+                  internalType: "uint8[]",
+                },
+                {
+                  name: "subjAnswers",
+                  type: "uint8[]",
+                  internalType: "uint8[]",
+                },
+              ],
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "transferAgent",
+          inputs: [
+            {
+              name: "newOwner",
+              type: "address",
+              internalType: "address",
+            },
+            {
+              name: "agentId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "transferOwnership",
+          inputs: [
+            {
+              name: "newOwner",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "verifier",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "event",
+          name: "AgentCreated",
+          inputs: [
+            {
+              name: "agentId",
+              type: "uint256",
+              indexed: true,
+              internalType: "uint256",
+            },
+            {
+              name: "owner",
+              type: "address",
+              indexed: true,
+              internalType: "address",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "AgentDeleted",
+          inputs: [
+            {
+              name: "agentId",
+              type: "uint256",
+              indexed: true,
+              internalType: "uint256",
+            },
+            {
+              name: "owner",
+              type: "address",
+              indexed: true,
+              internalType: "address",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "AgentTransferred",
+          inputs: [
+            {
+              name: "agentId",
+              type: "uint256",
+              indexed: true,
+              internalType: "uint256",
+            },
+            {
+              name: "previousOwner",
+              type: "address",
+              indexed: true,
+              internalType: "address",
+            },
+            {
+              name: "newOwner",
+              type: "address",
+              indexed: true,
+              internalType: "address",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "OrderCreated",
+          inputs: [
+            {
+              name: "orderId",
+              type: "uint256",
+              indexed: true,
+              internalType: "uint256",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "OrderDelivered",
+          inputs: [
+            {
+              name: "orderId",
+              type: "uint256",
+              indexed: true,
+              internalType: "uint256",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "OrderEvaluated",
+          inputs: [
+            {
+              name: "orderId",
+              type: "uint256",
+              indexed: true,
+              internalType: "uint256",
+            },
+            {
+              name: "completed",
+              type: "bool",
+              indexed: false,
+              internalType: "bool",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "OrderEvaluationChecked",
+          inputs: [
+            {
+              name: "orderId",
+              type: "uint256",
+              indexed: true,
+              internalType: "uint256",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "OrderEvaluationDisputeResolved",
+          inputs: [
+            {
+              name: "orderId",
+              type: "uint256",
+              indexed: true,
+              internalType: "uint256",
+            },
+            {
+              name: "completed",
+              type: "bool",
+              indexed: false,
+              internalType: "bool",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "OrderRequestAccepted",
+          inputs: [
+            {
+              name: "orderId",
+              type: "uint256",
+              indexed: true,
+              internalType: "uint256",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "OrderRequestRejected",
+          inputs: [
+            {
+              name: "orderId",
+              type: "uint256",
+              indexed: true,
+              internalType: "uint256",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "OrderRequested",
+          inputs: [
+            {
+              name: "orderId",
+              type: "uint256",
+              indexed: true,
+              internalType: "uint256",
+            },
+            {
+              name: "buyer",
+              type: "address",
+              indexed: true,
+              internalType: "address",
+            },
+            {
+              name: "serviceId",
+              type: "uint256",
+              indexed: true,
+              internalType: "uint256",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "OrderReviewed",
+          inputs: [
+            {
+              name: "orderId",
+              type: "uint256",
+              indexed: true,
+              internalType: "uint256",
+            },
+            {
+              name: "score",
+              type: "uint8",
+              indexed: false,
+              internalType: "uint8",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "OwnershipTransferred",
+          inputs: [
+            {
+              name: "previousOwner",
+              type: "address",
+              indexed: true,
+              internalType: "address",
+            },
+            {
+              name: "newOwner",
+              type: "address",
+              indexed: true,
+              internalType: "address",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "ReviewDepositAmountChanged",
+          inputs: [
+            {
+              name: "previousReviewDepositAmount",
+              type: "uint256",
+              indexed: true,
+              internalType: "uint256",
+            },
+            {
+              name: "newReviewDepositAmount",
+              type: "uint256",
+              indexed: true,
+              internalType: "uint256",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "ReviewDisputeResolved",
+          inputs: [
+            {
+              name: "orderId",
+              type: "uint256",
+              indexed: true,
+              internalType: "uint256",
+            },
+            {
+              name: "buyerWins",
+              type: "bool",
+              indexed: false,
+              internalType: "bool",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "ReviewDisputed",
+          inputs: [
+            {
+              name: "orderId",
+              type: "uint256",
+              indexed: true,
+              internalType: "uint256",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "ServiceCreated",
+          inputs: [
+            {
+              name: "serviceId",
+              type: "uint256",
+              indexed: true,
+              internalType: "uint256",
+            },
+            {
+              name: "agentId",
+              type: "uint256",
+              indexed: true,
+              internalType: "uint256",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "ServiceDeleted",
+          inputs: [
+            {
+              name: "serviceId",
+              type: "uint256",
+              indexed: true,
+              internalType: "uint256",
+            },
+            {
+              name: "agentId",
+              type: "uint256",
+              indexed: true,
+              internalType: "uint256",
+            },
+            {
+              name: "owner",
+              type: "address",
+              indexed: true,
+              internalType: "address",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "VerifierChanged",
+          inputs: [
+            {
+              name: "previousVerifier",
+              type: "address",
+              indexed: true,
+              internalType: "address",
+            },
+            {
+              name: "newVerifier",
+              type: "address",
+              indexed: true,
+              internalType: "address",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "error",
+          name: "OwnableInvalidOwner",
+          inputs: [
+            {
+              name: "owner",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+        },
+        {
+          type: "error",
+          name: "OwnableUnauthorizedAccount",
+          inputs: [
+            {
+              name: "account",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+        },
+      ],
+      inheritedFunctions: {},
+      deploymentFile: "run-1752723603.json",
+      deploymentScript: "Deploy.s.sol",
+    },
+  },
+  84532: {
+    Tesseract: {
+      address: "0xc0cfc114b52f7160ffa9dddc40b12c6e402fa7cb",
+      abi: [
+        {
+          type: "constructor",
+          inputs: [
+            {
+              name: "initialOwner",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "agentCounter",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "checkOrderEvaluation",
+          inputs: [
+            {
+              name: "orderId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "dispute",
+              type: "bool",
+              internalType: "bool",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "checkReview",
+          inputs: [
+            {
+              name: "orderId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "dispute",
+              type: "bool",
+              internalType: "bool",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "completionParamsCounter",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "createAgent",
+          inputs: [
+            {
+              name: "name",
+              type: "string",
+              internalType: "string",
+            },
+            {
+              name: "bio",
+              type: "string",
+              internalType: "string",
+            },
+            {
+              name: "imageURI",
+              type: "string",
+              internalType: "string",
+            },
+            {
+              name: "contact",
+              type: "string",
+              internalType: "string",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "createOrder",
+          inputs: [
+            {
+              name: "orderId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "inputURI",
+              type: "string",
+              internalType: "string",
+            },
+          ],
+          outputs: [],
+          stateMutability: "payable",
+        },
+        {
+          type: "function",
+          name: "createService",
+          inputs: [
+            {
+              name: "agentId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "description",
+              type: "string",
+              internalType: "string",
+            },
+            {
+              name: "outputURI",
+              type: "string",
+              internalType: "string",
+            },
+            {
+              name: "inputSpecsURI",
+              type: "string",
+              internalType: "string",
+            },
+            {
+              name: "outputSpecsURI",
+              type: "string",
+              internalType: "string",
+            },
+            {
+              name: "price",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "deleteAgent",
+          inputs: [
+            {
+              name: "agentId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "deleteService",
+          inputs: [
+            {
+              name: "serviceId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "deliverOrder",
+          inputs: [
+            {
+              name: "orderId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "outputURI",
+              type: "string",
+              internalType: "string",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "disputeOrderEvaluationFee",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "disputeReviewFee",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "evaluateOrder",
+          inputs: [
+            {
+              name: "orderId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "completed",
+              type: "bool",
+              internalType: "bool",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "evaluateOrderRequest",
+          inputs: [
+            {
+              name: "orderId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "accept",
+              type: "bool",
+              internalType: "bool",
+            },
+          ],
+          outputs: [],
+          stateMutability: "payable",
+        },
+        {
+          type: "function",
+          name: "getAgentServices",
+          inputs: [
+            {
+              name: "agentId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          outputs: [
+            {
+              name: "",
+              type: "uint256[]",
+              internalType: "uint256[]",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "getAgentsByOwner",
+          inputs: [
+            {
+              name: "owner",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          outputs: [
+            {
+              name: "",
+              type: "uint256[]",
+              internalType: "uint256[]",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "idToAgent",
+          inputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          outputs: [
+            {
+              name: "id",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "name",
+              type: "string",
+              internalType: "string",
+            },
+            {
+              name: "bio",
+              type: "string",
+              internalType: "string",
+            },
+            {
+              name: "imageURI",
+              type: "string",
+              internalType: "string",
+            },
+            {
+              name: "contact",
+              type: "string",
+              internalType: "string",
+            },
+            {
+              name: "owner",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "idToCompletionParams",
+          inputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          outputs: [
+            {
+              name: "id",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "idToOrder",
+          inputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          outputs: [
+            {
+              name: "id",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "serviceId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "buyer",
+              type: "address",
+              internalType: "address",
+            },
+            {
+              name: "inputURI",
+              type: "string",
+              internalType: "string",
+            },
+            {
+              name: "outputURI",
+              type: "string",
+              internalType: "string",
+            },
+            {
+              name: "price",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "reviewDeposit",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "status",
+              type: "uint8",
+              internalType: "enum Orders.Status",
+            },
+            {
+              name: "completionParamsId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "reviewParamsId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "reviewId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "idToReview",
+          inputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          outputs: [
+            {
+              name: "id",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "reviewParamsId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "idToReviewParams",
+          inputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          outputs: [
+            {
+              name: "id",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "idToService",
+          inputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          outputs: [
+            {
+              name: "description",
+              type: "string",
+              internalType: "string",
+            },
+            {
+              name: "outputURI",
+              type: "string",
+              internalType: "string",
+            },
+            {
+              name: "inputSpecsURI",
+              type: "string",
+              internalType: "string",
+            },
+            {
+              name: "outputSpecsURI",
+              type: "string",
+              internalType: "string",
+            },
+            {
+              name: "price",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "completedServices",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "failedServices",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "totReviews",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "reputation",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "agentId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "orderCounter",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "owner",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "ownerAgentCounter",
+          inputs: [
+            {
+              name: "",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          outputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "platformFee",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "renounceOwnership",
+          inputs: [],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "requestOrder",
+          inputs: [
+            {
+              name: "serviceId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "objTasks",
+              type: "string[]",
+              internalType: "string[]",
+            },
+            {
+              name: "objQuestions",
+              type: "string[]",
+              internalType: "string[]",
+            },
+            {
+              name: "subjQuestions",
+              type: "string[]",
+              internalType: "string[]",
+            },
+            {
+              name: "objWeights",
+              type: "uint8[]",
+              internalType: "uint8[]",
+            },
+            {
+              name: "subjWeights",
+              type: "uint8[]",
+              internalType: "uint8[]",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "reviewDepositAmount",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "reviewOrder",
+          inputs: [
+            {
+              name: "orderId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "objAnswers",
+              type: "uint8[]",
+              internalType: "uint8[]",
+            },
+            {
+              name: "subjAnswers",
+              type: "uint8[]",
+              internalType: "uint8[]",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "reviewParamsCounter",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "reviewsCounter",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "serviceCounter",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "setReviewDeposit",
+          inputs: [
+            {
+              name: "newReviewDepositAmount",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "setVerifier",
+          inputs: [
+            {
+              name: "newVerifier",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "solveOrderEvaluationDispute",
+          inputs: [
+            {
+              name: "orderId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "completed",
+              type: "bool",
+              internalType: "bool",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "solveReviewDispute",
+          inputs: [
+            {
+              name: "orderId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "buyerWins",
+              type: "bool",
+              internalType: "bool",
+            },
+            {
+              name: "review",
+              type: "tuple",
+              internalType: "struct Orders.Review",
+              components: [
+                {
+                  name: "id",
+                  type: "uint256",
+                  internalType: "uint256",
+                },
+                {
+                  name: "reviewParamsId",
                   type: "uint256",
                   internalType: "uint256",
                 },
@@ -1272,6 +2523,19 @@ const deployedContracts = {
         },
         {
           type: "function",
+          name: "completionParamsCounter",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
           name: "createAgent",
           inputs: [
             {
@@ -1544,6 +2808,25 @@ const deployedContracts = {
         },
         {
           type: "function",
+          name: "idToCompletionParams",
+          inputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          outputs: [
+            {
+              name: "id",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
           name: "idToOrder",
           inputs: [
             {
@@ -1594,6 +2877,11 @@ const deployedContracts = {
               internalType: "enum Orders.Status",
             },
             {
+              name: "completionParamsId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
               name: "reviewParamsId",
               type: "uint256",
               internalType: "uint256",
@@ -1623,7 +2911,7 @@ const deployedContracts = {
               internalType: "uint256",
             },
             {
-              name: "ReviewParamsId",
+              name: "reviewParamsId",
               type: "uint256",
               internalType: "uint256",
             },
@@ -1788,6 +3076,11 @@ const deployedContracts = {
               internalType: "uint256",
             },
             {
+              name: "objTasks",
+              type: "string[]",
+              internalType: "string[]",
+            },
+            {
               name: "objQuestions",
               type: "string[]",
               internalType: "string[]",
@@ -1834,31 +3127,14 @@ const deployedContracts = {
               internalType: "uint256",
             },
             {
-              name: "review",
-              type: "tuple",
-              internalType: "struct Orders.Review",
-              components: [
-                {
-                  name: "id",
-                  type: "uint256",
-                  internalType: "uint256",
-                },
-                {
-                  name: "ReviewParamsId",
-                  type: "uint256",
-                  internalType: "uint256",
-                },
-                {
-                  name: "objAnswers",
-                  type: "uint8[]",
-                  internalType: "uint8[]",
-                },
-                {
-                  name: "subjAnswers",
-                  type: "uint8[]",
-                  internalType: "uint8[]",
-                },
-              ],
+              name: "objAnswers",
+              type: "uint8[]",
+              internalType: "uint8[]",
+            },
+            {
+              name: "subjAnswers",
+              type: "uint8[]",
+              internalType: "uint8[]",
             },
           ],
           outputs: [],
@@ -1972,7 +3248,7 @@ const deployedContracts = {
                   internalType: "uint256",
                 },
                 {
-                  name: "ReviewParamsId",
+                  name: "reviewParamsId",
                   type: "uint256",
                   internalType: "uint256",
                 },

@@ -25,6 +25,7 @@ contract DeployTesseract is ScaffoldETHDeploy {
      *      - Export contract addresses & ABIs to `nextjs` packages
      */
     function run() external ScaffoldEthDeployerRunner {
-        new Tesseract(deployer);
+        // new Tesseract(deployer);
+        new Tesseract(0xEDe5D351B7496e27Aeaa51465CFbF2b830965A47);
     }
 }

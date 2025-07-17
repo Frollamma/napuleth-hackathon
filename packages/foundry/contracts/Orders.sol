@@ -26,6 +26,11 @@ contract Orders is Ownable, Services {
         Reviewed
     }
 
+    struct CompletionParams {
+        uint id;
+        string[] objTasks;
+    }
+
     struct ReviewParams {
         uint id;
         string[] objQuestions;
@@ -36,7 +41,7 @@ contract Orders is Ownable, Services {
 
     struct Review {
         uint id;
-        uint ReviewParamsId;
+        uint reviewParamsId;
         uint8[] objAnswers;
         uint8[] subjAnswers;
     }
@@ -50,21 +55,24 @@ contract Orders is Ownable, Services {
         uint price;
         uint reviewDeposit;
         Status status;
+        uint completionParamsId;
         uint reviewParamsId;
         uint reviewId;
     }
 
     uint public orderCounter;
+    uint public completionParamsCounter;
     uint public reviewParamsCounter;
     uint public reviewsCounter;
     mapping(uint => Order) public idToOrder;
+    mapping(uint => CompletionParams) public idToCompletionParams;
     mapping(uint => ReviewParams) public idToReviewParams;
     mapping(uint => Review) public idToReview;
 
     uint public reviewDepositAmount = 1 ether;
-    uint public constant disputeOrderEvaluationFee = 0.01 ether;
-    uint public constant disputeReviewFee = 0.01 ether;
-    uint public constant platformFee = 0.0001 ether;
+    uint public constant disputeOrderEvaluationFee = 1 ether;
+    uint public constant disputeReviewFee = 1 ether;
+    uint public constant platformFee = 1 ether;
 
     // address authorized to resolve disputes
     address public verifier;
@@ -138,6 +146,7 @@ contract Orders is Ownable, Services {
 
     function requestOrder(
         uint serviceId,
+        string[] calldata objTasks,
         string[] calldata objQuestions,
         string[] calldata subjQuestions,
         uint8[] calldata objWeights,
@@ -149,6 +158,15 @@ contract Orders is Ownable, Services {
         require(subjQuestions.length == subjWeights.length, "Same length please");
 
         uint orderId = orderCounter;
+
+
+        CompletionParams memory completionParams = CompletionParams({
+            id:           completionParamsCounter,
+            objTasks: objTasks
+        });
+        idToCompletionParams[completionParamsCounter] = completionParams;
+        completionParamsCounter++;
+
         ReviewParams memory reviewParams = ReviewParams({
             id:           reviewParamsCounter,
             objQuestions: objQuestions,
@@ -169,6 +187,7 @@ contract Orders is Ownable, Services {
             price: service.price,
             reviewDeposit: reviewDepositAmount,
             status: Status.Requested,
+            completionParamsId: completionParamsCounter,
             reviewParamsId: reviewParamsCounter,
             reviewId: 0
         });
@@ -247,13 +266,18 @@ contract Orders is Ownable, Services {
         }
     }
 
-    function reviewOrder(uint orderId, Review memory review) external onlyBuyer(orderId) {
+    function reviewOrder(uint orderId, uint8[] calldata objAnswers, uint8[] calldata subjAnswers) external onlyBuyer(orderId) {
         Order storage order = idToOrder[orderId];
         require(order.status == Status.Complete, "Cannot evaluate this order");
-        require(review.objAnswers.length == idToReviewParams[order.reviewParamsId].objWeights.length, "Same length please");
-        require(review.subjAnswers.length == idToReviewParams[order.reviewParamsId].subjWeights.length, "Same length please");
+        require(objAnswers.length == idToReviewParams[order.reviewParamsId].objWeights.length, "Same length please");
+        require(subjAnswers.length == idToReviewParams[order.reviewParamsId].subjWeights.length, "Same length please");
         
-        idToReview[reviewsCounter] = review;
+        idToReview[reviewsCounter] = Review({
+          id: reviewsCounter,
+          reviewParamsId: order.reviewParamsId,
+          objAnswers: objAnswers,
+          subjAnswers: subjAnswers
+        });
         order.reviewId = reviewsCounter;
         reviewsCounter++;
         order.status = Status.JustReviewed;
